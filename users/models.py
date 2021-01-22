@@ -9,6 +9,13 @@ class Profile(models.Model):
     user=OneToOneField(User,on_delete='CASCADE')
     name=models.CharField(max_length=20,default='User')
     image=ImageField(default='default.jpg',upload_to='profile_pics')
+    BLOODGROUP_CHOICES=(
+        ('AB+','AB+'),('AB-','AB-'),
+        ('A+','A+'),('A-','A-'),
+        ('B+','B+'),('B-','B-'),
+        ('O+','O+'),('O-','O-'),
+    )
+    blood_group=models.CharField(max_length=15,default=None,choices=BLOODGROUP_CHOICES)
     def __str__(self):
         return self.user.username
 
