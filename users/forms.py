@@ -22,5 +22,5 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model=Profile
-        fields=['image','name','blood_group']
+        fields="__all__"
 
