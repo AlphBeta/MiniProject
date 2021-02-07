@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import OneToOneField
 from PIL import Image
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 # Create your models here.
 class Profile(models.Model):
@@ -16,6 +18,8 @@ class Profile(models.Model):
         ('O+','O+'),('O-','O-'),
     )
     blood_group=models.CharField(max_length=15,default=None,choices=BLOODGROUP_CHOICES)
+    phone_no=PhoneNumberField(blank=True,max_length=15)
+    emergency_contact=PhoneNumberField(blank=True,max_length=15)
     def __str__(self):
         return self.user.username
 
