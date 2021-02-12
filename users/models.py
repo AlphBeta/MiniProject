@@ -1,9 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import OneToOneField
 from PIL import Image
 from phonenumber_field.modelfields import PhoneNumberField
+from datetime import datetime,date
 
 
 # Create your models here.
@@ -17,9 +19,15 @@ class Profile(models.Model):
         ('B+','B+'),('B-','B-'),
         ('O+','O+'),('O-','O-'),
     )
-    blood_group=models.CharField(max_length=15,default=None,choices=BLOODGROUP_CHOICES)
+    blood_group=models.CharField(max_length=15,default=None,null=True,choices=BLOODGROUP_CHOICES)
     phone_no=PhoneNumberField(blank=True,max_length=15)
     emergency_contact=PhoneNumberField(blank=True,max_length=15)
+    date_of_birth=models.DateField(max_length=8,default=datetime.now)
+
+    def calculate_age(born):
+        today = date.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
     def __str__(self):
         return self.user.username
 
@@ -30,3 +38,12 @@ class Profile(models.Model):
             outputsize = (300,300)
             img.thumbnail(outputsize)
             img.save(self.image.path)
+
+class MedInfo(models.Model):
+    user=OneToOneField(User,on_delete=CASCADE)
+    height=models.DecimalField('Height(in cm)',max_digits=5,decimal_places=2,null=True)
+    weight=models.DecimalField('Weight(in kg)',max_digits=5,decimal_places=2,null=True)
+    donate=models.BooleanField('Willing to donate?',default=False)
+
+    def __str__(self):
+        return self.user.username 

@@ -4,7 +4,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,MedicalInfoForm
 
 
 def register(request):
@@ -29,7 +29,7 @@ def profile(request):
             p_form.save()
             username = u_form.cleaned_data.get('username')
             messages.success(request,f'Profile Updated {username}')
-            return redirect('profile')
+            return redirect('medicalinfo')
     else:
         u_form=UserUpdateForm(instance=request.user)
         p_form=ProfileUpdateForm(instance=request.user.profile)
@@ -39,3 +39,22 @@ def profile(request):
         'p_form':p_form,
     }
     return render(request,'profile.html',context)
+
+@login_required
+def medinfo(request):
+    if request.method=='POST':    
+        u_form=UserUpdateForm(request.POST,instance=request.user)
+        m_form=MedicalInfoForm(request.POST,instance=request.user.medinfo)
+        if m_form.is_valid():
+            m_form.save()
+            messages.success(request,f'Medical Data Updated Successfully')
+            return redirect('profile')
+    else:
+        u_form=UserUpdateForm(instance=request.user)
+        m_form=MedicalInfoForm(instance=request.user.medinfo)
+
+    context={
+        'u_form':u_form,
+        'm_form':m_form,
+    }
+    return render(request,'medinfo.html',context)
