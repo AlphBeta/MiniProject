@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{%load static %}
+{% block content %}
+<div class="content-section">
+    <table class="table" >
+        <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Donor Name</th>
+              <th scope="col">Blood Group</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone no</th>
+            </tr>
+          </thead>
+        {% for donor in donors_list %}
+          <tbody>
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{donor.profile.name}}</td>
+                <td>{{donor.profile.blood_group}}</td>
+                <td>{{donor.email}}</td>
+                <td>{{donor.profile.phone_no}}</td>
+              </tr>
+          </tbody>
+        {% endfor %}
+    </table>
+</div>
+{%endblock content%}

@@ -1,3 +1,5 @@
+from typing import Tuple
+from users.models import MedInfo, Profile
 from django.contrib.auth.models import User
 from django.http import request
 from django.shortcuts import render,redirect
@@ -58,3 +60,13 @@ def medinfo(request):
         'm_form':m_form,
     }
     return render(request,'medinfo.html',context)
+
+@login_required
+def blood_donation(request):
+    donors=User.objects.filter(profile__donate=True).all
+    
+    context={
+        'donors_list':donors,
+        'count':1,
+   }
+    return render(request,'blood_donation.html',context)

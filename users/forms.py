@@ -27,10 +27,10 @@ class ProfileUpdateForm(forms.ModelForm):
             'date_of_birth':DateWidget(),
         }
         model=Profile
-        fields=['name','image','blood_group','phone_no','emergency_contact','date_of_birth']
+        fields=['name','image','blood_group','phone_no','emergency_contact','date_of_birth','donate']
 
 class MedicalInfoForm(forms.ModelForm):
 
     class Meta:
         model=MedInfo
-        fields=['height','weight','donate']
+        fields=['height','weight',]
