@@ -26,6 +26,7 @@ class Profile(models.Model):
     emergency_contact=PhoneNumberField(blank=True,max_length=15)
     date_of_birth=models.DateField(max_length=8,default=date.today)
     donate=models.BooleanField('Willing to donate?',default=False)
+    age=models.IntegerField(default=None)
     def calculate_age(self):
         today = date.today()
         return today.year - self.date_of_birth.year - ((today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day))
@@ -33,6 +34,9 @@ class Profile(models.Model):
         return self.user.username
 
     def save(self, *args, **kwargs):
+        self.age=self.calculate_age()
+        if self.age<18:
+            self.donate=False
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)
         if img.width > 300 or img.height> 300:
