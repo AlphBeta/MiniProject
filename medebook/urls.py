@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
-from users.views import register,profile,medinfo,blood_donation
+from users.views import register,profile,medinfo,blood_donation,profile_info
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path,include
@@ -32,6 +32,7 @@ urlpatterns = [
     path('logout/',auth_views.LogoutView.as_view(template_name='logout.html'),name='logout'),
     path('blood_donation/',blood_donation,name='blood_donation'),
     path('admin/', admin.site.urls),
+    path('profile_info/',profile_info,name='profile_info'),
 ]
 
 if settings.DEBUG:

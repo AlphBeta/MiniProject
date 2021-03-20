@@ -32,5 +32,8 @@ class ProfileUpdateForm(forms.ModelForm):
 class MedicalInfoForm(forms.ModelForm):
 
     class Meta:
+        widgets={
+            '':widgets.RadioSelect()
+        }
         model=MedInfo
-        fields=['height','weight',]
+        fields=['height','weight','is_athlete','pulse']

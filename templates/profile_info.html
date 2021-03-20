@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="content-section">
+    <table class="table" >
+        <thead>
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">UserName</th>
+              <th scope="col">Score</th>
+            </tr>
+          </thead>
+        {% for user in users %}
+          <tbody>
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{user.username}}</td>
+                <td>{{user.medinfo.score}}</td>
+              </tr>
+          </tbody>
+        {% endfor %}
+    </table>
+</div>
+{% endblock content %}

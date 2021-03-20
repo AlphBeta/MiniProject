@@ -7,7 +7,7 @@ from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,MedicalInfoForm
-
+from .models import MedInfo
 
 def register(request):
     if request.method == 'POST':
@@ -54,7 +54,7 @@ def medinfo(request):
     else:
         u_form=UserUpdateForm(instance=request.user)
         m_form=MedicalInfoForm(instance=request.user.medinfo)
-
+    
     context={
         'u_form':u_form,
         'm_form':m_form,
@@ -70,3 +70,11 @@ def blood_donation(request):
         'count':1,
    }
     return render(request,'blood_donation.html',context)
+
+@login_required
+def profile_info(request):
+    users=User.objects.all().order_by('-medinfo__score')
+    context={
+        'users':users
+    }
+    return render(request,'profile_info.html',context)

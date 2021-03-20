@@ -41,10 +41,57 @@ class Profile(models.Model):
             img.save(self.image.path)
 
 class MedInfo(models.Model):
+    Bmi_grade={
+        'N':'Normal',
+        'U':'UnderWeight',
+        'O':'OverWeight',
+        'OO':'Obese'
+    }
+    score=models.IntegerField(default=50,blank=True)
     user=OneToOneField(User,on_delete=CASCADE)
     height=models.DecimalField('Height(in cm)',max_digits=5,decimal_places=2,null=True)
     weight=models.DecimalField('Weight(in kg)',max_digits=5,decimal_places=2,null=True)
+    is_athlete=models.BooleanField("Are you an Athlete:",default=False)
+    bmi_grade=models.CharField(max_length=20,null=True,default=None)
+    pulse=models.IntegerField('Pulse rate',blank=True,default=50,null=True)
+    bmi=models.DecimalField(max_digits=5,decimal_places=2,default=None)
+
     #donate=models.BooleanField('Willing to donate?',default=False)
+
+    def bmi_analyze(self):
+        height=self.height/100
+        self.bmi=(self.weight)/(height*height)
+        if self.bmi<=18.5:
+            self.score-=3
+            self.bmi_grade=self.Bmi_grade['U']
+        elif self.bmi>=25 and self.bmi<=29.9:
+            self.score-=3
+            self.bmi_grade=self.Bmi_grade['O']
+        elif self.bmi>30:
+            self.bmi-=5
+            self.bmi_grade=self.Bmi_grade['OO']
+        else:
+            self.score+=3
+            self.bmi_grade=self.Bmi_grade['N']
+        
+    def pulse_analyze(self):
+        self.score=50
+        if self.is_athlete:
+            if self.pulse>85 or self.pulse<=33:
+                self.score=self.score-3
+            else:
+                self.score=50
+        else:
+            if self.pulse>85 or self.pulse<55:
+                self.score=self.score-3
+            else:
+                self.score=50
 
     def __str__(self):
         return self.user.username 
+    
+    def save(self, *args, **kwargs):
+        self.pulse_analyze()
+        super().save( *args, **kwargs)
+        self.bmi_analyze()            #saving the score
+        super().save( *args, **kwargs)
