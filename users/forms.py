@@ -33,7 +33,8 @@ class MedicalInfoForm(forms.ModelForm):
 
     class Meta:
         widgets={
-            '':widgets.RadioSelect()
+            'fever_cycle':widgets.RadioSelect(),
+            'fever':widgets.RadioSelect()
         }
         model=MedInfo
-        fields=['height','weight','is_athlete','pulse']
+        fields=['height','weight','is_athlete','pulse','fever','fever_cycle']

@@ -6,6 +6,9 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.urls import reverse_lazy
+from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,MedicalInfoForm
 from .models import MedInfo
 
@@ -50,7 +53,7 @@ def medinfo(request):
         if m_form.is_valid():
             m_form.save()
             messages.success(request,f'Medical Data Updated Successfully')
-            return redirect('profile')
+            return redirect('profile_info')
     else:
         u_form=UserUpdateForm(instance=request.user)
         m_form=MedicalInfoForm(instance=request.user.medinfo)
@@ -64,7 +67,6 @@ def medinfo(request):
 @login_required
 def blood_donation(request):
     donors=User.objects.filter(profile__donate=True).all
-    
     context={
         'donors_list':donors,
         'count':1,
@@ -72,9 +74,14 @@ def blood_donation(request):
     return render(request,'blood_donation.html',context)
 
 @login_required
-def profile_info(request):
+def leaderboard(request):
     users=User.objects.all().order_by('-medinfo__score')
     context={
         'users':users
     }
-    return render(request,'profile_info.html',context)
+    return render(request,'leaderboard.html',context)
+
+@login_required
+def profile_info(request):
+    user=request.user
+    return render(request,'profile_info.html',{'user':user})

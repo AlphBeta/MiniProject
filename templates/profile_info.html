@@ -1,24 +1,23 @@
 {% extends "base.html" %}
-{% load static %}
+{%load crispy_forms_tags %}
 {% block content %}
-<div class="content-section">
-    <table class="table" >
-        <thead>
-            <tr>
-              <th scope="col">Rank</th>
-              <th scope="col">UserName</th>
-              <th scope="col">Score</th>
-            </tr>
-          </thead>
-        {% for user in users %}
-          <tbody>
-              <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td>{{user.username}}</td>
-                <td>{{user.medinfo.score}}</td>
-              </tr>
-          </tbody>
-        {% endfor %}
-    </table>
-</div>
+    <div class="content-section">
+        <div class="media position:fixed">
+            <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+            <div class="media-body">
+              <h3 class="account-heading"><small>Hey, {{ user.profile.name }}</small></h3>
+              <p class="text-secondary">Your Score is {{ user.medinfo.score }}</p>
+            </div>
+        </div>
+        <h3 class="h3">Medical Info</h3>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Height:</b> {{user.medinfo.height}} cm</li>
+            <li class="list-group-item"><b>Weight:</b> {{user.medinfo.weight}} kg</li>
+            <li class="list-group-item"><b>Athlete: </b> {{user.medinfo.is_athlete}}</li>
+            <li class="list-group-item"><b>Donor:</b> {{user.profile.donate}}</li>
+            <li class="list-group-item"><b>Pulse Rate</b> Rate: {{user.medinfo.pulse}}</li>
+            <li class="list-group-item"><b>BMI:</b> {{user.medinfo.bmi}}</li>
+            <li class="list-group-item"><b>You are {{user.medinfo.bmi_grade}}</b></li>
+          </ul>
+    </div>
 {% endblock content %}

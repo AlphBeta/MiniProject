@@ -51,6 +51,11 @@ class MedInfo(models.Model):
         'O':'OverWeight',
         'OO':'Obese'
     }
+    FEVER={
+    ('S','Very Often'),
+    ('N','Once in a while'),
+    ('NN',"Don't remember the last time I got")
+    }
     score=models.IntegerField(default=50,blank=True)
     user=OneToOneField(User,on_delete=CASCADE)
     height=models.DecimalField('Height(in cm)',max_digits=5,decimal_places=2,null=True)
@@ -59,6 +64,9 @@ class MedInfo(models.Model):
     bmi_grade=models.CharField(max_length=20,null=True,default=None)
     pulse=models.IntegerField('Pulse rate',blank=True,default=50,null=True)
     bmi=models.DecimalField(max_digits=5,decimal_places=2,default=None)
+    fever=models.BooleanField('Are you ill/Having Cold?',default=False,choices=((True,'Yes'),(False,'No')))
+    fever_cycle=models.CharField('How often do you get cold or fever?',max_length=3,default=None,null=True,choices=FEVER)
+
 
     #donate=models.BooleanField('Willing to donate?',default=False)
 
@@ -91,6 +99,14 @@ class MedInfo(models.Model):
             else:
                 self.score=50
 
+    def fever_calc(self):
+        if self.fever:
+            self.score-=5
+        if(self.fever_cycle=='S'):
+            self.score-=3
+        elif(self.fever_cycle=='NN'):
+            self.score+=3
+            
     def __str__(self):
         return self.user.username 
     
@@ -98,4 +114,6 @@ class MedInfo(models.Model):
         self.pulse_analyze()
         super().save( *args, **kwargs)
         self.bmi_analyze()            #saving the score
+        super().save( *args, **kwargs)
+        self.fever_calc()
         super().save( *args, **kwargs)
