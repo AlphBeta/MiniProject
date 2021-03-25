@@ -51,6 +51,7 @@ def medinfo(request):
         u_form=UserUpdateForm(request.POST,instance=request.user)
         m_form=MedicalInfoForm(request.POST,instance=request.user.medinfo)
         if m_form.is_valid():
+            
             m_form.save()
             messages.success(request,f'Medical Data Updated Successfully')
             return redirect('profile_info')
@@ -66,16 +67,20 @@ def medinfo(request):
 
 @login_required
 def blood_donation(request):
-    donors=User.objects.filter(profile__donate=True).all
-    context={
-        'donors_list':donors,
-        'count':1,
-   }
-    return render(request,'blood_donation.html',context)
+    if request.method=='POST':
+        blood=request.POST.get('choice',None)
+        donors=User.objects.filter(profile__donate=True,profile__blood_group=blood).all
+        context={
+            'donors_list':donors,
+            'count':1,
+        }
+        return render(request,'blood_donation.html',context)
+    else:
+        return render(request,'blood_donation.html')
 
 @login_required
 def leaderboard(request):
-    users=User.objects.all().order_by('-medinfo__score')
+    users=User.objects.all().order_by('-medinfo__score')[:15]
     context={
         'users':users
     }

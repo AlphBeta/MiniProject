@@ -25,6 +25,7 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         widgets={
             'date_of_birth':DateWidget(),
+            'sex':widgets.RadioSelect()
         }
         model=Profile
         fields=['name','image','blood_group','phone_no','emergency_contact','date_of_birth','donate']
@@ -34,7 +35,9 @@ class MedicalInfoForm(forms.ModelForm):
     class Meta:
         widgets={
             'fever_cycle':widgets.RadioSelect(),
-            'fever':widgets.RadioSelect()
+            'fever':widgets.RadioSelect(),
+            'eye_sight':widgets.RadioSelect(),
+            'sex': widgets.RadioSelect()
         }
         model=MedInfo
-        fields=['height','weight','is_athlete','pulse','fever','fever_cycle']
+        fields=['height','weight','sex','waist','hip','is_athlete','pulse','fever','fever_cycle','eye_sight']

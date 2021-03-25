@@ -2,6 +2,56 @@
 {%load static %}
 {% block content %}
 <div class="content-section">
+    <form method="POST" action="{% url 'blood_donation' %}" class="form-inline">
+      {% csrf_token %}
+      <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Blood Group:</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="AB+">
+        <label class="form-check-label" for="exampleRadios2">
+          AB+&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="AB-">
+        <label class="form-check-label" for="exampleRadios2">
+          AB-&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="A+">
+        <label class="form-check-label" for="exampleRadios2">
+          A+&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="A-">
+        <label class="form-check-label" for="exampleRadios2">
+          A-&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="B+">
+        <label class="form-check-label" for="exampleRadios2">
+          B+&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="B-">
+        <label class="form-check-label" for="exampleRadios2">
+          B-&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="O+">
+        <label class="form-check-label" for="exampleRadios2">
+          O+&ensp;  
+        </label>
+        <input class="form-check-input" type="radio" name="choice" id="exampleRadios2" value="O-">
+        <label class="form-check-label" for="exampleRadios2">
+          O-&ensp;  
+        </label>
+      </div>
+      <!--Blood Group:
+      <input type="radio" value="AB+" name="choice">AB+
+      <input type="radio" value="AB-" name="choice">AB-
+      <input type="radio" value="A+" name="choice">A+
+      <input type="radio" value="A-" name="choice">A-
+      <input type="radio" value="B+" name="choice">B+
+      <input type="radio" value="B-" name="choice">B-
+      <input type="radio" value="O+" name="choice">O+
+      <input type="radio" value="O-" name="choice">O-
+      -->
+      
+      <button type="submit" class="btn btn-primary my-1">Search</button>
+    </form>
     <table class="table" >
         <thead>
             <tr>

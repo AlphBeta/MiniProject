@@ -1,3 +1,4 @@
+#from users.views import profile
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
@@ -6,6 +7,7 @@ from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import OneToOneField
 from PIL import Image
 from phonenumber_field.modelfields import PhoneNumberField
+from django.contrib.auth.decorators import login_required
 from datetime import datetime,date
 
 
@@ -26,6 +28,7 @@ class Profile(models.Model):
     emergency_contact=PhoneNumberField(blank=True,max_length=15)
     date_of_birth=models.DateField(max_length=8,default=date.today)
     donate=models.BooleanField('Willing to donate?',default=False)
+    sex = models.CharField(max_length=7,default=None,null=True,choices=(('M','Male'),('F','Female'),('O','Other')))
     age=models.IntegerField(default=None)
     def calculate_age(self):
         today = date.today()
@@ -51,41 +54,91 @@ class MedInfo(models.Model):
         'O':'OverWeight',
         'OO':'Obese'
     }
+    Whr_grade={
+        'L':'LOW',
+        'M':'MODERATE',
+        'S':'HIGHT',
+        'N':'NULL'
+    }
     FEVER={
     ('S','Very Often'),
     ('N','Once in a while'),
     ('NN',"Don't remember the last time I got")
     }
+    SIGHT={
+        ('Normal','I can see clearly'),
+        ('Glasses','I wear Glasses'),
+        ('Myopia','Difficult to see distant objects'),
+        ('Hypermetropia','Difficult in reading'),
+        ('Presbyopia','Difficulty in both')
+    }
     score=models.IntegerField(default=50,blank=True)
     user=OneToOneField(User,on_delete=CASCADE)
+    sex = models.CharField(max_length=7,default=None,null=True,choices=(('M','Male'),('F','Female'),('O','Other')))
     height=models.DecimalField('Height(in cm)',max_digits=5,decimal_places=2,null=True)
     weight=models.DecimalField('Weight(in kg)',max_digits=5,decimal_places=2,null=True)
+    waist=models.DecimalField('Waist(in cm)',max_digits=5,decimal_places=2,null=True,blank=True)
+    hip=models.DecimalField('Hip(in cm)',max_digits=5,decimal_places=2,null=True,blank=True)
     is_athlete=models.BooleanField("Are you an Athlete:",default=False)
     bmi_grade=models.CharField(max_length=20,null=True,default=None)
+    whr_grade=models.CharField(max_length=20,null=True,default=None)
     pulse=models.IntegerField('Pulse rate',blank=True,default=50,null=True)
-    bmi=models.DecimalField(max_digits=5,decimal_places=2,default=None)
+    bmi=models.DecimalField(max_digits=5,decimal_places=2,default=19)
+    whr=models.DecimalField(max_digits=5,decimal_places=2,default=None,null=True)
     fever=models.BooleanField('Are you ill/Having Cold?',default=False,choices=((True,'Yes'),(False,'No')))
     fever_cycle=models.CharField('How often do you get cold or fever?',max_length=3,default=None,null=True,choices=FEVER)
+    eye_sight=models.CharField("How is your eye sight?",max_length=20,default=False,choices=SIGHT)
 
 
     #donate=models.BooleanField('Willing to donate?',default=False)
 
-    def bmi_analyze(self):
-        height=self.height/100
-        self.bmi=(self.weight)/(height*height)
-        if self.bmi<=18.5:
-            self.score-=3
-            self.bmi_grade=self.Bmi_grade['U']
-        elif self.bmi>=25 and self.bmi<=29.9:
-            self.score-=3
-            self.bmi_grade=self.Bmi_grade['O']
-        elif self.bmi>30:
-            self.bmi-=5
-            self.bmi_grade=self.Bmi_grade['OO']
-        else:
-            self.score+=3
-            self.bmi_grade=self.Bmi_grade['N']
+    def bmi_analyze(self,score):
+        self.score=score
+        if self.height or self.weight:
+            height=self.height/100
+            self.bmi=(self.weight)/(height*height)
+            if self.bmi<=18.5:
+                self.score-=3
+                self.bmi_grade=self.Bmi_grade['U']
+            elif self.bmi>=25 and self.bmi<=29.9:
+                self.score-=3
+                self.bmi_grade=self.Bmi_grade['O']
+            elif self.bmi>30:
+                self.bmi-=5
+                self.bmi_grade=self.Bmi_grade['OO']
+            else:
+                self.score+=3
+                self.bmi_grade=self.Bmi_grade['N']
+        return self.score
         
+    def whr_analyze(self,score):
+        self.score=score
+        if self.hip or self.waist:
+            self.whr=self.waist/self.hip
+            if(self.sex=='F'):
+                if self.whr<=0.8:
+                    self.score+=5
+                    self.whr_grade=self.Whr_grade['L']
+                elif self.whr>=0.81 and self.whr <=0.85:
+                    self.score+=3
+                    self.whr_grade=self.Whr_grade['M']
+                elif self.whr>0.85:
+                    self.score=-5
+                    self.whr_grade=self.Whr_grade['S']
+            else:
+                if self.whr<=0.95:
+                    self.score+=5
+                    self.whr_grade=self.Whr_grade['L']
+                elif self.whr>=0.96 and self.whr <=1:
+                    self.score+=3
+                    self.whr_grade=self.Whr_grade['M']
+                elif self.whr>1:
+                    self.score=-5
+                    self.whr_grade=self.Whr_grade['S']
+        else:
+            self.whr_grade=self.Whr_grade['N']
+        return self.score
+
     def pulse_analyze(self):
         self.score=50
         if self.is_athlete:
@@ -98,22 +151,37 @@ class MedInfo(models.Model):
                 self.score=self.score-3
             else:
                 self.score=50
+        return self.score
 
-    def fever_calc(self):
+    def fever_calc(self,score):
+        self.score=score
         if self.fever:
             self.score-=5
         if(self.fever_cycle=='S'):
             self.score-=3
         elif(self.fever_cycle=='NN'):
-            self.score+=3
+            self.score+=5
+        return self.score
             
+    def sight_analyze(self,score):
+        self.score=score
+        if self.eye_sight=='Glasses':
+            self.score-=2
+        elif self.eye_sight=='Myopia' or self.eye_sight=='Hypermetropia':
+            self.score-=3
+        elif self.score=='Presbyopia':
+            self.score-=5
+        else:
+            self.score+=5
+        return self.score
+
     def __str__(self):
         return self.user.username 
     
     def save(self, *args, **kwargs):
-        self.pulse_analyze()
-        super().save( *args, **kwargs)
-        self.bmi_analyze()            #saving the score
-        super().save( *args, **kwargs)
-        self.fever_calc()
-        super().save( *args, **kwargs)
+            score=self.pulse_analyze()    
+            score=self.bmi_analyze(score)      #saving the score
+            score=self.whr_analyze(score)
+            score=self.fever_calc(score)
+            score=self.sight_analyze(score)  
+            super().save( *args, **kwargs)
