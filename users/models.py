@@ -57,7 +57,7 @@ class MedInfo(models.Model):
     Whr_grade={
         'L':'LOW',
         'M':'MODERATE',
-        'S':'HIGHT',
+        'S':'HIGH',
         'N':'NULL'
     }
     FEVER={
@@ -82,9 +82,10 @@ class MedInfo(models.Model):
     is_athlete=models.BooleanField("Are you an Athlete:",default=False)
     bmi_grade=models.CharField(max_length=20,null=True,default=None)
     whr_grade=models.CharField(max_length=20,null=True,default=None)
-    pulse=models.IntegerField('Pulse rate',blank=True,default=50,null=True)
+    pulse=models.IntegerField('Resting Heart Rate',blank=True,default=None,null=True)
     bmi=models.DecimalField(max_digits=5,decimal_places=2,default=19)
     whr=models.DecimalField(max_digits=5,decimal_places=2,default=None,null=True)
+    diabetes=models.BooleanField('Do you have diabetes?',default=False,choices=((True,'Yes'),(False,'No')))
     fever=models.BooleanField('Are you ill/Having Cold?',default=False,choices=((True,'Yes'),(False,'No')))
     fever_cycle=models.CharField('How often do you get cold or fever?',max_length=3,default=None,null=True,choices=FEVER)
     eye_sight=models.CharField("How is your eye sight?",max_length=20,default=False,choices=SIGHT)
@@ -123,7 +124,7 @@ class MedInfo(models.Model):
                     self.score+=3
                     self.whr_grade=self.Whr_grade['M']
                 elif self.whr>0.85:
-                    self.score=-5
+                    self.score-=5
                     self.whr_grade=self.Whr_grade['S']
             else:
                 if self.whr<=0.95:
@@ -141,16 +142,25 @@ class MedInfo(models.Model):
 
     def pulse_analyze(self):
         self.score=50
-        if self.is_athlete:
-            if self.pulse>85 or self.pulse<=33:
-                self.score=self.score-3
+        if self.pulse:
+            if self.is_athlete:
+                if self.pulse>85 or self.pulse<=33:
+                    self.score=self.score-3
+                else:
+                    self.score=50
             else:
-                self.score=50
+                if self.pulse>85 or self.pulse<55:
+                    self.score=self.score-3
+                else:
+                    self.score=50
+        return self.score
+
+    def diab_analyze(self,score):
+        self.score=score
+        if self.diabetes:
+            self.score-=3
         else:
-            if self.pulse>85 or self.pulse<55:
-                self.score=self.score-3
-            else:
-                self.score=50
+            self.score+=1
         return self.score
 
     def fever_calc(self,score):
@@ -183,5 +193,6 @@ class MedInfo(models.Model):
             score=self.bmi_analyze(score)      #saving the score
             score=self.whr_analyze(score)
             score=self.fever_calc(score)
+            score=self.diab_analyze(score)
             score=self.sight_analyze(score)  
             super().save( *args, **kwargs)

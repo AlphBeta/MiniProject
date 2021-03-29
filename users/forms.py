@@ -37,7 +37,8 @@ class MedicalInfoForm(forms.ModelForm):
             'fever_cycle':widgets.RadioSelect(),
             'fever':widgets.RadioSelect(),
             'eye_sight':widgets.RadioSelect(),
-            'sex': widgets.RadioSelect()
+            'sex': widgets.RadioSelect(),
+            'diabetes':widgets.RadioSelect()
         }
         model=MedInfo
-        fields=['height','weight','sex','waist','hip','is_athlete','pulse','fever','fever_cycle','eye_sight']
+        fields=['height','weight','sex','waist','hip','diabetes','is_athlete','pulse','fever','fever_cycle','eye_sight']
