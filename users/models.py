@@ -105,7 +105,7 @@ class MedInfo(models.Model):
                 self.score-=3
                 self.bmi_grade=self.Bmi_grade['O']
             elif self.bmi>30:
-                self.bmi-=5
+                self.score-=5
                 self.bmi_grade=self.Bmi_grade['OO']
             else:
                 self.score+=3
@@ -134,7 +134,7 @@ class MedInfo(models.Model):
                     self.score+=3
                     self.whr_grade=self.Whr_grade['M']
                 elif self.whr>1:
-                    self.score=-5
+                    self.score-=5
                     self.whr_grade=self.Whr_grade['S']
         else:
             self.whr_grade=self.Whr_grade['N']
@@ -145,12 +145,12 @@ class MedInfo(models.Model):
         if self.pulse:
             if self.is_athlete:
                 if self.pulse>85 or self.pulse<=33:
-                    self.score=self.score-3
+                    self.score-=3
                 else:
                     self.score=50
             else:
                 if self.pulse>85 or self.pulse<55:
-                    self.score=self.score-3
+                    self.score-=3
                 else:
                     self.score=50
         return self.score
@@ -169,6 +169,8 @@ class MedInfo(models.Model):
             self.score-=5
         if(self.fever_cycle=='S'):
             self.score-=3
+        elif(self.fever_cycle=='N'):
+            self.score-=1
         elif(self.fever_cycle=='NN'):
             self.score+=5
         return self.score
@@ -179,7 +181,7 @@ class MedInfo(models.Model):
             self.score-=2
         elif self.eye_sight=='Myopia' or self.eye_sight=='Hypermetropia':
             self.score-=3
-        elif self.score=='Presbyopia':
+        elif self.eye_sight=='Presbyopia':
             self.score-=5
         else:
             self.score+=5
