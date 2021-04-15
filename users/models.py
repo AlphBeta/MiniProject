@@ -26,6 +26,7 @@ class Profile(models.Model):
     phone_no=PhoneNumberField(blank=True,max_length=15)
     emergency_contact=PhoneNumberField(blank=True,max_length=15)
     date_of_birth=models.DateField(max_length=8,default=date.today)
+    postal_code=models.IntegerField(default=None)
     donate=models.BooleanField('Willing to donate?',default=False)
     sex = models.CharField(max_length=7,default=None,null=True,choices=(('M','Male'),('F','Female'),('O','Other')))
     age=models.IntegerField(default=None)
@@ -197,3 +198,23 @@ class MedInfo(models.Model):
             score=self.diab_analyze(score)
             score=self.sight_analyze(score)  
             super().save( *args, **kwargs)
+
+class Doctor(models.Model):
+    doctor_name=models.CharField(max_length=20)
+    qualification=models.CharField(max_length=30)
+    specialization=models.CharField(max_length=25,blank=True, default=None)
+    phone_no=PhoneNumberField(blank=True,max_length=15)
+    image=ImageField(default='default.jpg',upload_to='profile_pics')
+    email=models.EmailField()
+    document=models.URLField(max_length=200)
+    postal_code=models.IntegerField(default=None,blank=True,null=True)
+    def __str__(self):
+        return self.doctor_name
+        
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        img = Image.open(self.image.path)
+        if img.width > 300 or img.height> 300:
+            outputsize = (300,300)
+            img.thumbnail(outputsize)
+            img.save(self.image.path)

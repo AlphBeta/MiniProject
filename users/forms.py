@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import fields, widgets
-from .models import Profile,MedInfo
+from .models import Profile,MedInfo,Doctor
 
 class UserRegisterForm(UserCreationForm):
     email=forms.EmailField()
@@ -42,3 +42,8 @@ class MedicalInfoForm(forms.ModelForm):
         }
         model=MedInfo
         fields=['height','weight','sex','waist','hip','diabetes','is_athlete','pulse','fever','fever_cycle','eye_sight']
+
+class DoctorProfileForm(forms.ModelForm):
+    class Meta:
+        model=Doctor
+        fields=['doctor_name', 'qualification', 'specialization','phone_no','image','email','document','postal_code']

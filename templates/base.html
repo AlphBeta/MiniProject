@@ -2,8 +2,8 @@
 {% load static %}
 <html>
 <head>
-     <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-     <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<img src="{% static 'images/Med1.jpg' %}" width="100%" height="auto">-->
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -69,7 +69,7 @@
                 <li class="list-group-item list-group-item-light "><a href="{% url 'register' %}">Register</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'login' %}">Login</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'blood_donation' %}">Blood Portal</a></li>
-                <li class="list-group-item list-group-item-light"><a href="#">Hospitals</a></li>
+                <li class="list-group-item list-group-item-light"><a href="{% url 'doctor_list' %}">Hospitals</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
             </ul>
             </p>

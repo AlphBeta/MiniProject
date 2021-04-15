@@ -1,6 +1,6 @@
 import re
 from typing import Tuple
-from users.models import MedInfo, Profile
+from users.models import MedInfo, Profile,Doctor
 from django.contrib.auth.models import User
 from django.http import request
 from django.shortcuts import render,redirect
@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,MedicalInfoForm
+from .forms import UserRegisterForm,UserUpdateForm,ProfileUpdateForm,MedicalInfoForm,DoctorProfileForm
 from .models import MedInfo
 
 def register(request):
@@ -94,6 +94,30 @@ def profile_info(request):
 
 def about(request):
     return render(request,'about.html')
+
+def doc_profile(request):
+    if request.method=='POST':    
+        d_form=DoctorProfileForm(request.POST,request.FILES)
+        if d_form.is_valid():
+            d_form.save()
+            messages.success(request,f'Successfully added Doctor\'s Information')
+            return redirect('MedEbook')
+    else:
+        d_form=DoctorProfileForm()
+
+    context={
+        'd_form':d_form,
+    }
+    return render(request,'doc_profile.html',context)
+
+@login_required
+def list_of_doctor(request):
+    doctors=Doctor.objects.all()
+    context={
+        'doctors':doctors,
+        'count':1,
+    }
+    return render(request, 'doc_list.html', context)
 
 @login_required
 def suggestion(request):
