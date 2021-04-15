@@ -1,3 +1,4 @@
+import re
 from typing import Tuple
 from users.models import MedInfo, Profile
 from django.contrib.auth.models import User
@@ -90,3 +91,11 @@ def leaderboard(request):
 def profile_info(request):
     user=request.user
     return render(request,'profile_info.html',{'user':user})
+
+def about(request):
+    return render(request,'about.html')
+
+@login_required
+def suggestion(request):
+    user=request.user
+    return render(request,'suggestion.html',{'user':user})

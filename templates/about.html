@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+<body>
+  <header class="site-header">
+    <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <div class="container">
+        <a class="navbar-brand mr-4" href="{% url 'MedEbook' %}" >MedEbook</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggle">
+          <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="{% url 'MedEbook' %}">Home</a>
+            <a class="nav-item nav-link" href="{% url  'about'  %}">About</a>
+          </div>
+          <div class="navbar-nav">
+            {% if user.is_authenticated %}
+              <a class="navbar-brand mr-4" href="{% url 'profile' %}">Hello! {{user.username}}</a>
+              <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+            {% else %}
+              <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <br>
+  <br>
+  <p ><a class="nav-item nav-link" href="{% url 'MedEbook' %}"><h1 style="text-align:center;">MED-EBOOK</h1></a></p>
+<div style="width:500px;height:100px;position:absolute;left:33%;text-align:center;border:1px solid  #3e76c0;">
+  <p class="text-centre">
+    <h3 style="text-align:center;">“He who has health has hope; and he who has hope 
+      has everything.”</h3>
+  </p>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div style="width:500px;height:350px;position:absolute;left:33%;border:1px solid #3e76c0;">
+  <p class="text-centre">
+    <h5 style="text-align:center;">Due to Covid-19 Pandemic, every person is extremely 
+      conscious about their health and people close to them. 
+      Our project is mainly focused on people’s health. We 
+      decided to design a webpage which allows the user to 
+      register and login. We ask few personal and medical 
+      data from the user. User needs to update their medical 
+      data monthly. In case of any health issues (from the 
+      medical data), solutions are suggested. A list of nearby 
+      clinics/hospitals will also be provided.
+      Also, in case of blood requirement, we provide contact 
+      details of users who are willing to donate which is 
+      based on the Blood Group requirement and location
+    </h5>
+  </p>
+</div>
+<link href="style.css" rel="stylesheet">
+<link rel="stylesheet"
+href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+   <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-
+   awesome/4.7.0/css/font-awesome.min.css">
+<section class="team">
+   <div style= "margin-top:25%;" class="container">
+     <br>
+     <br>
+     <br>
+     <br>
+     <h1 style="text-align:center;">OUR TEAM</h1>
+     <br>
+     <br>
+        <div class="row">
+          <div class="col-mid-3 orofile text-center">
+            <div classs="img-box">
+              <img src="{% static 'images/bush.jpg' %}" width="250px" height="300" class = "img-responsive">
+              <ul>
+
+                <a href="#"><li><i class="fa fa-facebook"></i></li></a>
+                <a href="#"><li><i class="fa fa-instagram"></i></li></a>
+                <a href="#"><li><i class="fa fa-linkedin"></i></li></a>
+
+                <h2>ANTONY BUSH</h2>
+                <h3>Student at</h3>
+                <p><h3>FCRIT, Vashi</h3></p>
+             </ul>
+           </div>
+          </div>
+          <div class="col-mid-3 orofile text-center">
+            <div classs="img-box">
+              <img src="{% static 'images/leander.jpg' %}" width="250px" height="300" class = "img-responsive">
+              <ul>
+
+                <a href="#"><li><i class="fa fa-facebook"></i></li></a>
+                <a href="#"><li><i class="fa fa-instagram"></i></li></a>
+                <a href="#"><li><i class="fa fa-linkedin"></i></li></a>
+
+                <h2>SELVA LEANDER</h2>
+                <h3>Student at</h3>
+                <p><h3>FCRIT, Vashi</h3></p>
+             </ul>
+           </div>
+          </div>
+          <div class="col-mid-3 orofile text-center">
+            <div classs="img-box">
+              <img src="{% static 'images/alroy.jpg' %}" width="250px" height="300" class = "img-responsive">
+              <ul>
+
+                <a href="#"><li><i class="fa fa-facebook"></i></li></a>
+                <a href="#"><li><i class="fa fa-instagram"></i></li></a>
+                <a href="#"><li><i class="fa fa-linkedin"></i></li></a>
+
+                <h2>SERRAO ALROY</h2>
+                <h3>Student at</h3>
+                <p><h3>FCRIT, Vashi</h3></p>
+             </ul>
+           </div>
+          </div>
+          <div class="col-mid-3 orofile text-center">
+            <div classs="img-box">
+              <img src="{% static 'images/jose.jpg' %}" width="250px" height="300" class = "img-responsive">
+              <ul>
+
+                <a href="#"><li><i class="fa fa-facebook"></i></li></a>
+                <a href="#"><li><i class="fa fa-instagram"></i></li></a>
+                <a href="#"><li><i class="fa fa-linkedin"></i></li></a>
+
+                <h2>SHALOM JOSE</h2>
+                <h3>Student at</h3>
+                <p><h3>FCRIT, Vashi</h3></p>
+             </ul>
+           </div>
+          </div>
+       </div>
+     </div>
+   </section>
+    <!-- Site footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h6>About</h6>
+            <p class="text-justify">Med-Ebook <i>PORTAL WANTS TO BE SIMPLE </i> is an initiative to help people to maintain good medical records. Our system will help our patients to better 
+              manage their care, such as Blood Group, Blood 
+              sugar levels, pulse rate, lab results, BMI, Weight, 
+              etc. – in electronic form as makes it easy for 
+              patients to update and share their records.</p>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>Categories</h6>
+            <ul class="footer-links">
+              <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+              <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+              <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+              <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+              <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+              <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+            </ul>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>Quick Links</h6>
+            <ul class="footer-links">
+              <li><a href="http://scanfcode.com/about/">About Us</a></li>
+              <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+              <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+              <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+              <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+            </ul>
+          </div>
+        </div>
+        <hr>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8 col-sm-6 col-xs-12">
+            
+          </div>
+
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <ul class="social-icons">
+              <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+              <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
+            </ul>
+          </div>
+        </div>
+      </div>
+</footer>
+</body>
+</html>

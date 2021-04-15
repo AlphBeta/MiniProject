@@ -1,0 +1,332 @@
+
+{%load crispy_forms_tags %}
+{%load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--<img src="{% static 'images/Med1.jpg' %}" width="100%" height="auto">-->
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+    <meta charset="utf-8">
+    <title>Owl-carousel Cards Slider | CodingNepal</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+  </head>
+  <body>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+          <div class="container">
+            <a class="navbar-brand mr-4" href="{% url 'MedEbook' %}" >MedEbook</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarToggle">
+              <div class="navbar-nav mr-auto">
+                <a class="nav-item nav-link" href="{% url 'MedEbook' %}">Home</a>
+                <a class="nav-item nav-link" href="{% url  'about'  %}">About</a>
+              </div>
+              <div class="navbar-nav">
+                {% if user.is_authenticated %}
+                  <a class="navbar-brand mr-4" href="{% url 'profile' %}">Hello! {{user.username}}</a>
+                  <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                  <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                  <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+    <div class="slider owl-carousel">
+      {% if user.medinfo.score <= 50 %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Score.jpg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Fitness Score </div>
+          <div class="sub-title">{{ user.medinfo.score }}</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"> Fitness score shows how fit you are for your age and sex.</li>
+            <li class="list-group-item">Your score is based on your BMI,WHR,Pulse Rate,ect.</li>
+            <li class="list-group-item">You can improve your score by both consistent exercise and moderate intensity exercises i.e * Brisk walk</li>
+            <li class="list-group-item">Healthy weight-loss may help you improve your fitness score.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.score >= 50 %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Score.jpg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Fitness Score </div>
+          <div class="sub-title">{{ user.medinfo.score }}</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"> Fitness score shows how fit you are for your age and sex.</li>
+            <li class="list-group-item">Your score is based on your BMI,WHR,Pulse Rate,ect.</li>
+            <li class="list-group-item">You can improve your score by both consistent exercise and high intensity exercises i.e * Aerobic Exercise</li>
+            <li class="list-group-item">Healthy weight-loss may help you improve your fitness score.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.fever_cycle == 'N' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/fever.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">FEVER</div>
+          <div class="sub-title">Onve in a while:</div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"> Ginger-Tulsi Syrup.Boil juice of ginger in water and add crushed tulsi leaves.Mix 2tbsp honey and simmer together.</li>
+          <li class="list-group-item"> Drink a lot of fluids.</li>
+          <li class="list-group-item"> Get a lot of rest.</li>
+          <li class="list-group-item">* Consult with your doctor if temperature rises above 100.4 F</li>
+        </ul>
+      </div>
+      {% endif %}
+      {% if user.medinfo.fever_cycle == 'S' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/fever.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">FEVER</div>
+          <div class="sub-title">Very Often:</div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Make sure you have plenty of rest, including bed rest.</li>
+          <li class="list-group-item"> Ginger-Tulsi Syrup.Boil juice of ginger in water and add crushed tulsi leaves.Mix 2tbsp honey and simmer together.</li>
+          <li class="list-group-item">Drink a lot of fluids.</li>
+          <li class="list-group-item">Avoid taking cold baths or showers. </li>
+          <li class="list-group-item">* Consult with your doctor if you are still feverish after three days, despite home treatment and if temperature rises above 100.4 F</li>
+        </ul>
+      </div>
+      {% endif %}
+      {% if user.medinfo.eye_sight == 'Presbyopia' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Presbyopia.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">SIGHT</div>
+          <div class="sub-title">Presbyopia</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Schedule your annual eye exam</li>
+            <li class="list-group-item">Always wear sunglasses</li>
+            <li class="list-group-item">20:20:20 Rule. Every 20 minutes, look up from your screen or device and focus on an object placed 20 feet away for 20 seconds. This will help relax your eyes.</li>
+            <li class="list-group-item">Reduce screen time.</li>
+            <li class="list-group-item">Use good lighting.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.eye_sight == 'Hypermetropia' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Glasses.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">SIGHT</div>
+          <div class="sub-title">Hypermetropia</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Schedule your annual eye exam</li>
+            <li class="list-group-item">Always wear sunglasses</li>
+            <li class="list-group-item">20:20:20 Rule. Every 20 minutes, look up from your screen or device and focus on an object placed 20 feet away for 20 seconds. This will help relax your eyes.</li>
+            <li class="list-group-item">Reduce screen time.</li>
+            <li class="list-group-item">Use good lighting.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.eye_sight == 'Myopia' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Glasses.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">SIGHT</div>
+          <div class="sub-title">Myopia</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Schedule your annual eye exam</li>
+            <li class="list-group-item">Always wear sunglasses</li>
+            <li class="list-group-item">20:20:20 Rule. Every 20 minutes, look up from your screen or device and focus on an object placed 20 feet away for 20 seconds. This will help relax your eyes.</li>
+            <li class="list-group-item">Reduce screen time.</li>
+            <li class="list-group-item">Use good lighting.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.eye_sight == 'Glasses' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Glasses.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">SIGHT</div>
+          <div class="sub-title">Glasses</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Schedule your annual eye exam</li>
+            <li class="list-group-item">Always wear sunglasses</li>
+            <li class="list-group-item">20:20:20 Rule. Every 20 minutes, look up from your screen or device and focus on an object placed 20 feet away for 20 seconds. This will help relax your eyes.</li>
+            <li class="list-group-item">Reduce screen time.</li>
+            <li class="list-group-item">Use good lighting.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.bmi_grade == 'OverWeight' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Over.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Get Rid</div>
+          <div class="sub-title">OverWeight</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">* Monitor your weight regularly.</li>
+            <li class="list-group-item">You need to get 30-45 minutes of Brisk Walk a day to prevent weight gain.</li>
+            <li class="list-group-item">Decrease calorie intake by 200cal per week.</li>
+            <li class="list-group-item">Focus on low carbohydrate, nutrient-dense foods, such as fruits, vegetables and whole grains.</li>
+            <li class="list-group-item">Avoid saturated fat and limit sweets and alcohol.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.bmi_grade == 'Obese' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Over.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Get Rid of</div>
+          <div class="sub-title">Obesity</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">* Monitor your weight regularly.</li>
+            <li class="list-group-item">Get 30-45 minutes of Brisk walk a day to prevent weight gain.</li>
+            <li class="list-group-item">Decrease calorie intake by 200cal per week.</li>
+            <li class="list-group-item">Focus on low carbohydrate, nutrient-dense foods, such as fruits, vegetables and whole grains.</li>
+            <li class="list-group-item">Avoid saturated fat and limit sweets and alcohol.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.bmi_grade == 'UnderWeight' %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/UnderWeight.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Get </div>
+          <div class="sub-title">Stronger</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Have 2 Bananas and milk every Morning.</li>
+            <li class="list-group-item">Increase calorie intake by 200cal per week.</li>
+            <li class="list-group-item">Make every bite count.</li>
+            <li class="list-group-item">Include whole-grain breads, pastas and cereals; fruits and vegetables; dairy products; lean protein(Chicken); and nuts.</li>
+            <li class="list-group-item">Exercise, especially strength training, can help you gain weight by building up your muscles.</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.diabetes %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/Dia.jpeg' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Control Your </div>
+          <div class="sub-title">Insulin</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Exercising regularly can help utilze the sugar in your bloodstream</li>
+            <li class="list-group-item">Include diabetic foods such as low carb foods and high fibre foods.</li>
+            <li class="list-group-item">Add any 2 of theses in your diet that are Barley, Bitter, Gourd(KERELA), AMLA, 10g of METHI,Beans</li>
+            <li class="list-group-item">Control Stress Levels.</li>
+            <li class="list-group-item">*Monitor your Blood Sugar</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+      {% if user.medinfo.pulse >= 0 %}
+      <div class="card">
+        <div class="img"><img src="{% static 'images/heart.png' %}" alt=""></div>
+        <div class="content">
+          <div class="title">Healthy </div>
+          <div class="sub-title">Habits</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"> Get between 7-9 hours of sleep a night.</li>
+            <li class="list-group-item">Drink a glass of warm water first thing in the morning</li>
+            <li class="list-group-item">Practice self-awareness and mindfulness activities, such as meditation</li>
+            <li class="list-group-item">Exercising every day based on your fitness level</li>
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    <footer class="site-footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+              <h6>About</h6>
+              <p class="text-justify">Med-Ebook <i>PORTAL WANTS TO BE SIMPLE </i> is an initiative to help people to maintain good medical records. Our system will help our patients to better 
+                manage their care, such as Blood Group, Blood 
+                sugar levels, pulse rate, lab results, BMI, Weight, 
+                etc. – in electronic form as makes it easy for 
+                patients to update and share their records.</p>
+            </div>
+  
+            <div class="col-xs-6 col-md-3">
+              <h6>Categories</h6>
+              <ul class="footer-links">
+                <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
+                <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
+                <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
+                <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
+                <li><a href="http://scanfcode.com/category/android/">Android</a></li>
+                <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
+              </ul>
+            </div>
+  
+            <div class="col-xs-6 col-md-3">
+              <h6>Quick Links</h6>
+              <ul class="footer-links">
+                <li><a href="http://scanfcode.com/about/">About Us</a></li>
+                <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
+                <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
+                <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
+                <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
+              </ul>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-8 col-sm-6 col-xs-12">
+              
+            </div>
+  
+            <div class="col-md-4 col-sm-6 col-xs-12">
+              <ul class="social-icons">
+                <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
+              </ul>
+            </div>
+          </div>
+        </div>
+  </footer>
+    <script>
+      $(".slider").owlCarousel({
+        loop: true,
+        autoplay: true,
+        autoplayTimeout: 2000, //2000ms = 2s;
+        autoplayHoverPause: true,
+        nav:true,
+        responsive:{
+
+          0:{
+            items:1
+          },
+          600:{
+            items:2
+          },
+          1000:{
+            items:3
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

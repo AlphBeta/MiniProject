@@ -22,7 +22,6 @@ class Profile(models.Model):
         ('B+','B+'),('B-','B-'),
         ('O+','O+'),('O-','O-'),
     )
-    
     blood_group=models.CharField(max_length=15,default=None,null=True,choices=BLOODGROUP_CHOICES)
     phone_no=PhoneNumberField(blank=True,max_length=15)
     emergency_contact=PhoneNumberField(blank=True,max_length=15)

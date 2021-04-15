@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
-from users.views import leaderboard, register,profile,medinfo,blood_donation,profile_info
+from users.views import leaderboard, register,profile,medinfo,blood_donation,profile_info,about, suggestion
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import path,include
@@ -34,6 +34,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('leaderboard/',leaderboard,name='leaderboard'),
     path('profile_info/',profile_info,name='profile_info'),
+    path('about/',about,name='about'),
+    path('suggestion/',suggestion,name='suggestion')
 ]
 
 if settings.DEBUG:
