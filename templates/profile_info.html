@@ -19,7 +19,7 @@
             <li class="list-group-item"><b>BMI:</b> {{user.medinfo.bmi}}</li>
             <li class="list-group-item"><b>You are {{user.medinfo.bmi_grade}}</b></li>
             <li class="list-group-item"><b>WHR:</b> {{user.medinfo.whr}}</li>
-            <li class="list-group-item"><b>Potential Risk:</b> {{user.medinfo.whr_grade}}</li>
+            <li class="list-group-item"><b>Potential Risk:</b> {{user.medinfo.whrgrade}}</li>
             <li class="list-group-item"><b>Eye Sight:</b> {{user.medinfo.eye_sight}}</li>
           </ul>
           <div class="border-top pt-3">
@@ -27,6 +27,9 @@
                   Do you want to update your medical data?
                   <a class="ml-1" href="{% url 'medicalinfo'%}">Update</a>
               </small>
+          </div>
+          <div class="form-group  pt-3" >
+              <a class=" card text-center text-white bg-info ml-7" style="max-width: 7rem;" href="{% url 'suggestion' %}" >Suggestions</a>
           </div>
     </div>
 {% endblock content %}

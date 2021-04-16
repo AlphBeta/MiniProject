@@ -60,7 +60,7 @@
         {% for doctor in doctors %}
           <tbody>
               <tr>
-                <th scope="row">{{ forloop.counter }}</th>
+                <th scope="row">{{ forloop.counter }}</th>     
                 <td><img class="rounded-circle account-img " style="margin-left: 23px; width: 35px; height: 35px;" alt="Responsive image" src="{{ doctor.image.url }}" ></td>
                 <td>{{doctor.doctor_name}}</td>
                 <td>{{doctor.qualification}}</td>

@@ -6,6 +6,7 @@ from django.db.models.fields import EmailField
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import OneToOneField
 from PIL import Image
+from django.http import request
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.decorators import login_required
 from datetime import datetime,date
@@ -26,7 +27,7 @@ class Profile(models.Model):
     phone_no=PhoneNumberField(blank=True,max_length=15)
     emergency_contact=PhoneNumberField(blank=True,max_length=15)
     date_of_birth=models.DateField(max_length=8,default=date.today)
-    postal_code=models.IntegerField(default=None)
+    postal_code=models.IntegerField(default=None,null=True,blank=False)
     donate=models.BooleanField('Willing to donate?',default=False)
     sex = models.CharField(max_length=7,default=None,null=True,choices=(('M','Male'),('F','Female'),('O','Other')))
     age=models.IntegerField(default=None)
@@ -210,7 +211,7 @@ class Doctor(models.Model):
     postal_code=models.IntegerField(default=None,blank=True,null=True)
     def __str__(self):
         return self.doctor_name
-        
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         img = Image.open(self.image.path)

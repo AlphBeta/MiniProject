@@ -7,6 +7,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.db.models import F
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -69,8 +70,10 @@ def medinfo(request):
 @login_required
 def blood_donation(request):
     if request.method=='POST':
+        user=request.user
+        u=user.profile.postal_code
         blood=request.POST.get('choice',None)
-        donors=User.objects.filter(profile__donate=True,profile__blood_group=blood).all
+        donors=User.objects.filter(profile__donate=True,profile__blood_group=blood).all().order_by('profile__postal_code'-u)
         context={
             'donors_list':donors,
             'count':1,
@@ -112,7 +115,9 @@ def doc_profile(request):
 
 @login_required
 def list_of_doctor(request):
-    doctors=Doctor.objects.all()
+    us=request.user
+    u=us.profile.postal_code
+    doctors=Doctor.objects.order_by(F('postal_code') - u).all
     context={
         'doctors':doctors,
         'count':1,

@@ -66,3 +66,32 @@ html,body{
 .card .content .btn button:hover{
   transform: scale(0.9);
 }
+.owl-nav {
+  width: 110%;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+.owl-prev{
+  position:absolute;
+  left: 0;
+  display: block;
+  width: 54px;
+  height: 68px;
+  color:black;
+  font-size: 50px;
+
+
+
+}
+.owl-next{
+  position: absolute;
+  right: 0;
+  display: block;
+  width: 54px;
+  height: 68px;
+  color: black;
+  font-size: 50px;
+
+}

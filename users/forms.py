@@ -28,7 +28,7 @@ class ProfileUpdateForm(forms.ModelForm):
             'sex':widgets.RadioSelect()
         }
         model=Profile
-        fields=['name','image','blood_group','phone_no','emergency_contact','date_of_birth','donate']
+        fields=['name','image','blood_group','phone_no','emergency_contact','date_of_birth','donate','postal_code']
 
 class MedicalInfoForm(forms.ModelForm):
 

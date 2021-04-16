@@ -117,9 +117,9 @@ h1:after
 {
     content:"";
     background : #333;
-    dispay: block;
+    display: block;
     height:3px;
-    weight: 150px;
+    width: 150px;
     margin: 10px auto;
 
 }
