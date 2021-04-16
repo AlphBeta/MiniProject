@@ -39,18 +39,11 @@
           O-&ensp;  
         </label>
       </div>
-      <!--Blood Group:
-      <input type="radio" value="AB+" name="choice">AB+
-      <input type="radio" value="AB-" name="choice">AB-
-      <input type="radio" value="A+" name="choice">A+
-      <input type="radio" value="A-" name="choice">A-
-      <input type="radio" value="B+" name="choice">B+
-      <input type="radio" value="B-" name="choice">B-
-      <input type="radio" value="O+" name="choice">O+
-      <input type="radio" value="O-" name="choice">O-
-      -->
-      
-      <button type="submit" class="btn btn-primary my-1">Search</button>
+      <div class="form-group col-md-5" style="display: flex;  justify-content: space-between; align-items: center; padding: 10px;">
+        <input style="margin-left: -13px;" type="text" class="form-control" placeholder="Filter By Postal Code" name="search-area" value="{{search_input}}">
+        <button type="submit" class="btn btn-primary my-1" style="margin-left: 10px">Filter</button>
+      </div>
+      <!-- <button type="submit" class="btn btn-primary my-1">Search</button> -->
     </form>
     <table class="table" >
         <thead>

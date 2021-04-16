@@ -2,8 +2,6 @@
 {% load static %}
 <html>
 <head>
-    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="http://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--<img src="{% static 'images/Med1.jpg' %}" width="100%" height="auto">-->
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,12 +10,16 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
-        <title>MedEbook</title>
 
+    {% if title %}
+        <title>Django Blog - {{ title }}</title>
+    {% else %}
+        <title>MedEbook</title>
+    {% endif %}
 </head>
 <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top" style="height: 55px; padding-bottom: 6px;">
         <div class="container">
           <a class="navbar-brand mr-4" href="{% url 'MedEbook' %}" >MedEbook</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,12 +28,15 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{% url 'MedEbook' %}">Home</a>
-              <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+              <a class="nav-item nav-link" href="#">About</a>
             </div>
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="navbar-brand mr-4" href="{% url 'profile' %}">Hello! {{user.username}}</a>
-                <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                <a href="{% url 'profile_info' %}"><img class="rounded-circle account-img " style="margin-top: 11px; margin-left: 10%; width: 31px; height: 31px;" alt="Responsive image" src="{{ user.profile.image.url }}" ></a>
+                <a style="margin-top: 7.5px;" class="navbar-brand mr-4" href="{% url 'profile' %}">
+                  Hello! {{user.username}}
+                </a>
+                <a style="margin-top: 7px;" class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
                 <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
@@ -59,75 +64,19 @@
         <div class="col-md-4">
           <div class="content-section">
             <h3>Med-Ebook</h3>
-            <p class='text-muted'> --->
+            <p class='text-muted'>
             <ul class="list-group">
                 <li class="list-group-item list-group-item-light "><a href="{% url 'register' %}">Register</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'login' %}">Login</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'blood_donation' %}">Blood Portal</a></li>
-                <li class="list-group-item list-group-item-light"><a href="{% url 'doctor_list' %}">Hospitals</a></li>
+                <li class="list-group-item list-group-item-light"><a href="{% url 'doctor_list' %}">Doctors</a></li>
                 <li class="list-group-item list-group-item-light"><a href="{% url 'leaderboard' %}">Leaderboard</a></li>
             </ul>
             </p>
           </div>
         </div>
       </div>
-
     </main>
-<!-- Site footer -->
-<footer class="site-footer">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12 col-md-6">
-        <h6>About</h6>
-        <p class="text-justify">Med-Ebook <i>PORTAL WANTS TO BE SIMPLE </i> is an initiative to help people to maintain good medical records. Our system will help our patients to better 
-          manage their care, such as Blood Group, Blood 
-          sugar levels, pulse rate, lab results, BMI, Weight, 
-          etc. – in electronic form as makes it easy for 
-          patients to update and share their records.</p>
-      </div>
-
-      <div class="col-xs-6 col-md-3">
-        <h6>Categories</h6>
-        <ul class="footer-links">
-          <li><a href="http://scanfcode.com/category/c-language/">C</a></li>
-          <li><a href="http://scanfcode.com/category/front-end-development/">UI Design</a></li>
-          <li><a href="http://scanfcode.com/category/back-end-development/">PHP</a></li>
-          <li><a href="http://scanfcode.com/category/java-programming-language/">Java</a></li>
-          <li><a href="http://scanfcode.com/category/android/">Android</a></li>
-          <li><a href="http://scanfcode.com/category/templates/">Templates</a></li>
-        </ul>
-      </div>
-
-      <div class="col-xs-6 col-md-3">
-        <h6>Quick Links</h6>
-        <ul class="footer-links">
-          <li><a href="http://scanfcode.com/about/">About Us</a></li>
-          <li><a href="http://scanfcode.com/contact/">Contact Us</a></li>
-          <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Contribute</a></li>
-          <li><a href="http://scanfcode.com/privacy-policy/">Privacy Policy</a></li>
-          <li><a href="http://scanfcode.com/sitemap/">Sitemap</a></li>
-        </ul>
-      </div>
-    </div>
-    <hr>
-  </div>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-8 col-sm-6 col-xs-12">
-        
-      </div>
-
-      <div class="col-md-4 col-sm-6 col-xs-12">
-        <ul class="social-icons">
-          <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-          <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-          <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
-          <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>   
-        </ul>
-      </div>
-    </div>
-  </div>
-</footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

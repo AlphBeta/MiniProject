@@ -70,13 +70,18 @@ def medinfo(request):
 @login_required
 def blood_donation(request):
     if request.method=='POST':
-        user=request.user
-        u=user.profile.postal_code
+        donors=User.objects.all()
         blood=request.POST.get('choice',None)
-        donors=User.objects.filter(profile__donate=True,profile__blood_group=blood).all().order_by('profile__postal_code'-u)
+        search_input=request.POST.get('search-area') or ''
+        donors= donors.filter(profile__donate=True,profile__blood_group=blood,profile__postal_code__startswith=search_input)
+        
+        # if search_input and blood:
+        #     donors=donors.filter(profile__postal_code__startswith=search_input)
+            
         context={
             'donors_list':donors,
             'count':1,
+            'search_input':search_input
         }
         return render(request,'blood_donation.html',context)
     else:
@@ -95,8 +100,6 @@ def profile_info(request):
     user=request.user
     return render(request,'profile_info.html',{'user':user})
 
-def about(request):
-    return render(request,'about.html')
 
 def doc_profile(request):
     if request.method=='POST':    
@@ -115,12 +118,14 @@ def doc_profile(request):
 
 @login_required
 def list_of_doctor(request):
-    us=request.user
-    u=us.profile.postal_code
-    doctors=Doctor.objects.order_by(F('postal_code') - u).all
+    doctors=Doctor.objects.all()
+    search_input=request.GET.get('search-area') or ''
+    if search_input:
+        doctors=Doctor.objects.filter(postal_code__startswith=search_input)
     context={
         'doctors':doctors,
         'count':1,
+        'search_input':search_input
     }
     return render(request, 'doc_list.html', context)
 

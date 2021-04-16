@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib.auth.views import LoginView
 from django.views.generic.base import TemplateView
-from users.views import leaderboard, register,profile,medinfo,blood_donation,profile_info,about, suggestion,doc_profile,list_of_doctor
+from users.views import leaderboard, register,profile,medinfo,blood_donation,profile_info, suggestion,doc_profile,list_of_doctor
 from django.contrib import admin
+from home.views import about
 from django.contrib.auth import views as auth_views
 from django.urls import path,include
 from users import views as user_views
